@@ -1,0 +1,17 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scrpts\MonsterControl.cs">
+    <Files>
+      <File FileName="Assets\Scrpts\In_GameManager.cs" Line="24" Column="38" />
+      <File FileName="Assets\Scrpts\MonsterControl.cs" Line="18" Column="19" />
+      <File FileName="Assets\Scrpts\Effect_Folder\EffectControl.cs" Line="8" Column="2" />
+      <File FileName="Assets\Scrpts\Effect_Folder\EffectControl_World.cs" Line="6" Column="1" />
+      <File FileName="Assets\Scrpts\HeroControl.cs" Line="26" Column="26" />
+      <File FileName="Assets\Scrpts\Skill_normal_Attack.cs" Line="9" Column="3" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

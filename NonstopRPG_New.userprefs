@@ -1,0 +1,14 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scrpts\XML\XmlController.cs">
+    <Files>
+      <File FileName="Assets\Scrpts\XML\XmlController.cs" Line="21" Column="2" />
+      <File FileName="Assets\Scrpts\In_GameManager.cs" Line="70" Column="53" />
+      <File FileName="Assets\Resources\Monster_Respwan_Data.xml" Line="19" Column="9" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
