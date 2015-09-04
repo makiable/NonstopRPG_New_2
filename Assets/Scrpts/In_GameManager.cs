@@ -28,6 +28,9 @@ public class In_GameManager : MonoBehaviour {
 	[HideInInspector]
 	public List<MonsterControl> mMonster01;
 
+	public string[] mMonsterinfo;
+
+
 	//오토 타겟 몬스터 참조. 1명을 잡을때
 	[HideInInspector]
 	public MonsterControl TargetMonster;
@@ -84,10 +87,18 @@ public class In_GameManager : MonoBehaviour {
 		//mXmlController.Monster_Xml_Load (1);
 		//mXmlController.Xml_Load ("xml_Test_01");
 		//mXmlController.Monster_Xml_Load("Monster_Respwan_Data");
-		mXmlController.Test_Monster_ID_Xml_Load ("Monster_Respwan_Data", 1);
-
+		//mXmlController.Test_Monster_ID_Xml_Load ("Monster_Respwan_Data", 1);
+		mXmlController.Read_Monsterinfo_With_ID (0);
+		xmltemptest ();
 
 	}
+
+	void xmltemptest (){
+		for (int i = 0; i < 15; i++) {
+			Debug.Log("i = "+i+"-->"+ mXmlController.tempMonsterInfoStringArray[i]);
+		}
+	}
+
 	
 	// Update is called once per frame
 	void Update () {
@@ -114,6 +125,9 @@ public class In_GameManager : MonoBehaviour {
 				//몬스터 등장...
 				mHero01.SetStatus(HeroControl.Status.Idle);
 				mMonster01.Clear();
+
+				//스테이지 정보를 불러와서 들어갈 몬스터 ID를 여기서 넣는다.
+
 				for (int i = 0; i < monsterSpwanNumber; i++) {
 					//X 마리의 몬스터를 소환 합니다.
 					SpawnMonster(i);
@@ -140,6 +154,9 @@ public class In_GameManager : MonoBehaviour {
 
 	private void SpawnMonster(int idx)
 	{
+		//몬스터 정보를 여기에서 참조해서 하나씩 넣어보장.
+
+
 		// Resources 폴더로부터 Monster 프리팹(Prefab)을 로드합니다.
 		Object prefab = Resources.Load("Monster01");
 
@@ -155,6 +172,7 @@ public class In_GameManager : MonoBehaviour {
 		// 생성된 몬스터 만큼 카운팅 됩니다.
 		mMonsterCount += 1;
 		mMonster01[idx].idx = idx;
+
 		mMonster01[idx].RandomHP();//
 		mMonster01[idx].hptext.text = mMonster01[idx].mHP.ToString ();
 

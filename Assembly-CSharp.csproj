@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{879EF8B3-5BE4-7A5C-B380-8B3BE8192F8D}</ProjectGuid>
+	<ProjectGuid>{4F866133-64FD-3FD9-748D-EE57DC3DCF09}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -64,13 +64,13 @@
      <Compile Include="Assets\Scrpts\Weapon\All_Weapon_World.cs" />
      <Compile Include="Assets\Scrpts\Weapon\Weapon_Basic_Info.cs" />
      <Compile Include="Assets\Scrpts\Weapon\move_Script.cs" />
-     <Compile Include="Assets\Scrpts\XML\GameManager.cs" />
-     <Compile Include="Assets\Scrpts\XML\ReadTest.cs" />
-     <Compile Include="Assets\Scrpts\XML\RecItem.cs" />
-     <Compile Include="Assets\Scrpts\XML\WriteTest.cs" />
+     <Compile Include="Assets\Scrpts\XML\TestScripts\GameManager.cs" />
+     <Compile Include="Assets\Scrpts\XML\TestScripts\ReadTest.cs" />
+     <Compile Include="Assets\Scrpts\XML\TestScripts\RecItem.cs" />
+     <Compile Include="Assets\Scrpts\XML\TestScripts\WriteTest.cs" />
+     <Compile Include="Assets\Scrpts\XML\TestScripts\test_xml.cs" />
+     <Compile Include="Assets\Scrpts\XML\TestScripts\xmltest02.cs" />
      <Compile Include="Assets\Scrpts\XML\XmlController.cs" />
-     <Compile Include="Assets\Scrpts\XML\test_xml.cs" />
-     <Compile Include="Assets\Scrpts\XML\xmltest02.cs" />
      <None Include="Assets\Resources\xml_Test_01.xml" />
      <None Include="Assets\OUTPUT\itemList_Attribute.xml" />
      <None Include="Assets\Resources\Monster_Respwan_Data.xml" />
