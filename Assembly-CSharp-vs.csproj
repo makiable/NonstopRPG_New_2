@@ -74,7 +74,10 @@
      <None Include="Assets\Resources\xml_Test_01.xml" />
      <None Include="Assets\OUTPUT\itemList_Attribute.xml" />
      <None Include="Assets\Resources\Monster_Respwan_Data.xml" />
+     <None Include="Assets\Resources\Stage_Data_01.xml" />
      <None Include="Assets\Resources\itemList_Attribute.xml" />
+     <None Include="Assets\Resources\Stage_Data_02.xml" />
+     <None Include="Assets\Resources\Monster_List.xml" />
      <None Include="Assets\Resources\xml_Test_02.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

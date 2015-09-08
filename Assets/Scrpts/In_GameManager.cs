@@ -54,7 +54,12 @@ public class In_GameManager : MonoBehaviour {
 	public TextMesh getGold;
 
 
-	// 던전 인포.
+	// 던전 인포. (스테이지 번호와, 안에 파트 넘버)
+	public int StageNumber;
+
+	public ArrayList StageIDInStageXml = new ArrayList();
+	
+
 	// 던전을 탐험하는 횟수입니다.
 	public int mLoopCount;
 	// 화면에 나타난 적의 합
@@ -78,28 +83,34 @@ public class In_GameManager : MonoBehaviour {
 		// 적 몬스터 들이 담길 List
 		mMonster01 = new List<MonsterControl>();
 		mMonster01.Clear();
+
+		//스테이지 정보를 불러 올때 이거 사용. 1스테이지가 들어있는 노드는 총 몇개??
+		mXmlController.Stage_Load_Form_Xml (3); // 1 스테이지에서 필요한 정보를 얻음.지금은 수동이지만 이것도 인수로 받아와야 함.
+		//대표적으로, 몇번 돌릴지 :  Count => loopCount에 넣고.
+		mLoopCount = mXmlController.now_Stage_Number;
+		Debug.Log("mLoopCount = "+mLoopCount);
+
+		StageIDInStageXml = mXmlController.now_Stage_ID_Array;
+
+
+		
 		// 던전 탐험 스텝을 만들어서 순서대로 순환시킵니다.
 		StartCoroutine ("AutoStep");
 
 		//플레이어 정보 초기화. 나중에 없어져야 함.
 		PlayerPrefs.SetInt ("MonsterKillCount", 0 );
 
-		//mXmlController.Monster_Xml_Load (1);
-		//mXmlController.Xml_Load ("xml_Test_01");
-		//mXmlController.Monster_Xml_Load("Monster_Respwan_Data");
-		//mXmlController.Test_Monster_ID_Xml_Load ("Monster_Respwan_Data", 1);
-		mXmlController.Read_Monsterinfo_With_ID (0);
-		xmltemptest ();
+		//스테이지 정보를 불러 올때 이거 사용.
+		//mXmlController.Stage_Load_Form_Xml (1); // id 1번의 정보 모두 출력
+
+		//몬스터를 불러올때 이거 사용.
+		//mXmlController.Monster_Load_Form_Xml (1001);
+
+
 
 	}
-
-	void xmltemptest (){
-		for (int i = 0; i < 15; i++) {
-			Debug.Log("i = "+i+"-->"+ mXmlController.tempMonsterInfoStringArray[i]);
-		}
-	}
-
 	
+
 	// Update is called once per frame
 	void Update () {
 
@@ -126,11 +137,13 @@ public class In_GameManager : MonoBehaviour {
 				mHero01.SetStatus(HeroControl.Status.Idle);
 				mMonster01.Clear();
 
-				//스테이지 정보를 불러와서 들어갈 몬스터 ID를 여기서 넣는다.
+				//이 part에서 소환할 몬스터 마리수를 가져와서 넣습니다.
 
 				for (int i = 0; i < monsterSpwanNumber; i++) {
-					//X 마리의 몬스터를 소환 합니다.
+					//X 마리의 몬스터를 소환 합니다. 여기에 몬스터 id의 정보를 넣습니다.
 					SpawnMonster(i);
+					SpawnMonsterWithID(i, "ID");
+
 
 					//딜레이를 둔다. for 문에 딜레이를 줌.
 					yield return new WaitForSeconds(0.5f);
@@ -182,6 +195,12 @@ public class In_GameManager : MonoBehaviour {
 		monster.GetComponent<SpriteRenderer>().sortingOrder = idx+1;
 	}
 
+	private void SpawnMonsterWithID(int idx, string Monster_ID_number ){
+
+	}
+	
+	
+	
 	IEnumerator HeroAutoAttack(){
 
 		//타겟을 잡고..

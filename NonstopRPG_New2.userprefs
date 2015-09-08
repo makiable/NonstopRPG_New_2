@@ -1,11 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scrpts\In_GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scrpts\XML\XmlController.cs">
     <Files>
-      <File FileName="Assets\Scrpts\In_GameManager.cs" Line="89" Column="61" />
-      <File FileName="Assets\Scrpts\XML\XmlController.cs" Line="97" Column="54" />
-      <File FileName="Assets\Scrpts\XML\TestScripts\ReadTest.cs" Line="16" Column="2" />
-      <File FileName="Assets\Scrpts\XML\TestScripts\RecItem.cs" Line="13" Column="1" />
+      <File FileName="Assets\Scrpts\XML\XmlController.cs" Line="109" Column="23" />
+      <File FileName="Assets\Scrpts\In_GameManager.cs" Line="94" Column="3" />
+      <File FileName="Assets\Resources\Stage_Data_02.xml" Line="123" Column="12" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

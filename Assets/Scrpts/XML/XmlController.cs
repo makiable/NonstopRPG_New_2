@@ -13,20 +13,198 @@ public class XmlController : MonoBehaviour {
 	//몬스터 스폰 데이터를 가져오는 임시 xml만들기.
 	//[HideInInspector]
 	public string[] tempMonsterInfoStringArray = new string[15]; //15개 할당 전달 역활.
-	public string StageMonsterInfoXML = "Monster_Respwan_Data";
-	XmlDocument mXml = new XmlDocument(); //각 데이터를 저장할 임시 xml 파일.
-	XmlDocument TempMonsterXml = new XmlDocument(); //해당 값만 소환할 xml파일
+
+	public string[] Public_Temp_Stage_info = new string[10]; //10개의 스테이지 정보 담을 곳
+
+	public string[] Public_Temp_Monster_info = new string[12];
+
+	//public string StageMonsterInfoXML = "Monster_Respwan_Data";
+	
+	//스테이지 정보 가져오기.
+	public string StageInfo = "Stage_Data_01"; //xml 정보
+
+	//몬스터 리스트 가져오기.
+	public string mMonsterInfo = "Monster_List";
+
+	//전달할 스테이지 정보 인수.
+	public int now_Stage_Number;
+
+	public ArrayList now_Stage_ID_Array = new ArrayList();
+
 
 
 	// Use this for initialization
 	void Start () {
 	
 	}
+
+
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
+
+	//스테이지 정보 보여주기.
+	public void Stage_Xml_Load(){
+		
+		string filepath = Application.dataPath+"/Resources/Stage_Data_01.xml";
+		
+		if (File.Exists (filepath)) {
+			Debug.Log ("file exist");
+			TextAsset textAsset = (TextAsset)Resources.Load ("Stage_Data_01");
+			XmlDocument xmldoc = new XmlDocument (); //임시 파일 셍성.
+			xmldoc.LoadXml (textAsset.text); 
+
+			XmlNodeList nodes = xmldoc.SelectNodes ("dataroot/Node");
+			Debug.Log("Read Test Result");
+
+			foreach (XmlNode node in nodes) { //임시파일 전체 돌리기.
+				//Debug.Log ("A :"+node.SelectSingleNode("A").InnerText);
+				Debug.Log ("ID: " + node.SelectSingleNode ("ID").InnerText);
+				Debug.Log ("STAGE: " + node.SelectSingleNode ("STAGE").InnerText);
+				Debug.Log ("PART: " + node.SelectSingleNode ("PART").InnerText);
+				Debug.Log ("MONSTER_NUMBER: " + node.SelectSingleNode ("MONSTER_NUMBER").InnerText);
+				Debug.Log ("MONSTER_ID_01: " + node.SelectSingleNode ("MONSTER_ID_01").InnerText);
+				Debug.Log ("MONSTER_ID_02: " + node.SelectSingleNode ("MONSTER_ID_02").InnerText);
+				Debug.Log ("MONSTER_ID_03: " + node.SelectSingleNode ("MONSTER_ID_03").InnerText);
+				Debug.Log ("DROPITEM_ID_01 :"+node.SelectSingleNode("DROPITEM_ID_01").InnerText);
+				Debug.Log ("DROPITEM_ID_02 :"+node.SelectSingleNode("DROPITEM_ID_02").InnerText);
+				Debug.Log ("DROPGOLD :"+node.SelectSingleNode("DROPGOLD").InnerText);
+			}
+		} else
+			Debug.Log ("file not exist");
+	}
+
+	//스테이지 정보 가져오기.
+	public void Stage_Load_Form_Xml(int id_numner){
+
+		var StageNumerArray = new ArrayList ();
+
+		string filepath = Application.dataPath+"/Resources/Stage_Data_01.xml";
+		
+		if (File.Exists (filepath)) {
+			Debug.Log ("file exist");
+			TextAsset textAsset = (TextAsset)Resources.Load ("Stage_Data_02");
+			XmlDocument xmldoc = new XmlDocument (); //임시 파일 셍성.
+			xmldoc.LoadXml (textAsset.text); 
+
+			//노드 카운트 획득. (몇 개 있는지 모르잖아..)
+			XmlNodeList nodes = xmldoc.SelectNodes ("dataroot/Node");
+			Debug.Log("Nodes.Count = "+nodes.Count );
+			
+			int ListNumber = 0;
+
+			for (int i = 0; i < nodes.Count; i++) { //노드 카운트 만큼 돌며 
+				XmlNode xSearch = nodes.Item(i).SelectSingleNode("STAGE"); //STAGE영역을 검색합니다.
+
+				if (xSearch.InnerText == id_numner.ToString()) {
+					ListNumber = i; //이걸로 검색한 ID의 카운트 숫자를 찾았슴다.
+					StageNumerArray.Add(ListNumber);
+				}
+			}
+		//	Debug.Log("count? = "+StageNumerArray.Count); //1이면 3이 나와야 함. 3이면 4가 나와야 함.
+			now_Stage_Number = StageNumerArray.Count; //정보 전달.
+
+			//now_Stage_ID_Array = (string[])StageNumerArray.Clone();
+
+
+			for (int i = 0; i < StageNumerArray.Count; i++) {
+				Debug.Log(i+"nd i = " +StageNumerArray[i]);
+			}
+
+			//루트 엘리먼트 참조.
+			XmlElement root = xmldoc.DocumentElement;
+
+			for (int i = 0; i < StageNumerArray.Count; i++) {
+
+				int a = (int)StageNumerArray[i];
+				//몇 번째 ID 정보를 가져올 것인가?
+				XmlElement FirstChildElement = (XmlElement)root.ChildNodes [a];  //위에 꺼랑 같은 정보 노출.
+				Debug.Log (i+"nd ChildElement.InnerText : " + FirstChildElement.InnerText); //i노드의  모든 정보 출력. 
+
+				//선택한 노드의 자식 개수는?? 카운터 값음?
+				int count = FirstChildElement.ChildNodes.Count;
+				Debug.Log ("count = " + count);
+				
+				for (int j = 0; j < count; j++) {
+					XmlElement ElementText = (XmlElement)FirstChildElement.ChildNodes [j]; //i 노드의 n번째 값을 읽어옴. (i의 n번째 innerText는??)
+					Debug.Log ("j = "+j+"-->"+ElementText.InnerText);
+					Public_Temp_Stage_info[j] = (string)ElementText.InnerText; //값을 전달함.
+					Debug.Log (j+" temp = " + Public_Temp_Stage_info[j]);
+				} 
+				//몬스터 마리 수는 3
+				//몬스터 정보는 4,5,6
+			}
+
+		} else
+			Debug.Log ("file not exist");
+	}
+	
+	//몬스터 정보 가져오기. (몬스터 ID값을 넣으면 XML정보를 가져옵니다.
+	public void Monster_Load_Form_Xml(int id_numner){
+		
+		string filepath = Application.dataPath+"/Resources/Monster_List.xml";
+		
+		if (File.Exists (filepath)) {
+			Debug.Log ("file exist");
+			TextAsset textAsset = (TextAsset)Resources.Load ("Monster_List");
+			XmlDocument xmldoc = new XmlDocument (); //임시 파일 셍성.
+			xmldoc.LoadXml (textAsset.text); 
+
+			//노드 카운트 획득. (몇 개 있는지 모르잖아..)
+			XmlNodeList nodes = xmldoc.SelectNodes ("dataroot/Node");
+			Debug.Log("Nodes.Count = "+nodes.Count );
+
+			int ListNumber = 0;
+
+			for (int i = 0; i < nodes.Count; i++) { //노드 카운트 만큼 돌며 ID영역을 검색합니다.
+				XmlNode xSearch = nodes.Item(i).SelectSingleNode("ID");
+
+				if (xSearch.InnerText == id_numner.ToString()) {
+					ListNumber = i; //이걸로 검색한 ID의 카운트 숫자를 찾았슴다.
+				}
+			}
+			//루트 엘리먼트 참조.
+			XmlElement root = xmldoc.DocumentElement;
+
+	
+			//몇 번째 ID 정보를 가져올 것인가?
+			XmlElement SearchXmlData = (XmlElement)root.ChildNodes [ListNumber];  //위에 꺼랑 같은 정보 노출.
+			Debug.Log ("FirstChildElement.InnerText : " + SearchXmlData.InnerText); //i노드의  모든 정보 출력. 
+			//FirstChildElement.InnerText : 11121001100210013411
+			
+			//선택한 노드의 자식 개수는??
+			int count = SearchXmlData.ChildNodes.Count;
+			Debug.Log ("SearchXmlData.ChildNodes.Count = " + count);
+			
+			for (int i = 0; i < count; i++) {
+				XmlElement ElementText = (XmlElement)SearchXmlData.ChildNodes [i]; //i 노드의 n번째 값을 읽어옴. (i의 n번째 innerText는??)
+				Debug.Log ("i = "+i+"-->"+ElementText.InnerText);
+				Public_Temp_Monster_info[i] = (string)ElementText.InnerText; //값을 전달함.
+				Debug.Log ("temp = " + Public_Temp_Monster_info[i]);
+			} 
+
+			/* 확인용
+			Debug.Log("ID : "+nodes[ListNumber].SelectSingleNode("ID").InnerText);
+			Debug.Log("MONSTER_PREFAB_NAME : "+nodes[ListNumber].SelectSingleNode("MONSTER_PREFAB_NAME").InnerText);
+			Debug.Log("MONSTER_WEAPON_PREFAB : "+nodes[ListNumber].SelectSingleNode("MONSTER_WEAPON_PREFAB").InnerText);
+			Debug.Log("MONSTER_SPWAN_NUMBER : "+nodes[ListNumber].SelectSingleNode("MONSTER_SPWAN_NUMBER").InnerText);
+			Debug.Log("MONSTER_HP : "+nodes[ListNumber].SelectSingleNode("MONSTER_HP").InnerText);
+			Debug.Log("MONSTER_MP : "+nodes[ListNumber].SelectSingleNode("MONSTER_MP").InnerText);
+			Debug.Log("MONSTER_POWER : "+nodes[ListNumber].SelectSingleNode("MONSTER_POWER").InnerText);
+			Debug.Log("MONSTER_ATTACK_SPEED : "+nodes[ListNumber].SelectSingleNode("MONSTER_ATTACK_SPEED").InnerText);
+			Debug.Log("DROP_GOLD : "+nodes[ListNumber].SelectSingleNode("DROP_GOLD").InnerText);
+			Debug.Log("DROP_ITEM01 : "+nodes[ListNumber].SelectSingleNode("DROP_ITEM01").InnerText);
+			Debug.Log("DROP_ITEM02 : "+nodes[ListNumber].SelectSingleNode("DROP_ITEM02").InnerText);
+			Debug.Log("MONSTERSCRIPT : "+nodes[ListNumber].SelectSingleNode("MONSTERSCRIPT").InnerText);
+			*/
+		} else
+			Debug.Log ("file not exist");
+	}
+
+
+	/*
 	public void Monster_Xml_Load(string filename){
 		
 		string filepath = Application.dataPath+"/Resources/Monster_Respwan_Data.xml";
@@ -98,11 +276,13 @@ public class XmlController : MonoBehaviour {
 				tempMonsterInfoStringArray[i] = (string)ElementText.InnerText; //값을 전달함.
 				Debug.Log ("temp = " + tempMonsterInfoStringArray[i]);
 			} 
-			//return tempStringArray;
+
+			//Debug.Log("Send ID :"+ID_number+"NodeResult-firstChild.InnerText: "+nodes[ID_number].SelectSingleNode ("ID").InnerText);
+
 
 		} else {
 			Debug.Log ("file not exist");
-			//return null;
+
 		}
 	}
 
@@ -196,6 +376,6 @@ public class XmlController : MonoBehaviour {
 			Debug.Log ("file not exist");
 		
 	}
-
+	*/
 
 }
