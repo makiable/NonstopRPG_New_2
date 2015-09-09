@@ -92,6 +92,18 @@ public class MonsterControl : Character {
 		//Debug.Log ("hp is = "+ mHP);
 	}
 
+	public void RandomHP2(int hp)
+	{
+		//1.HP 넣고, 2. 백그라운드 컴퍼넌트 넣고, 3. 활이 발사될 장소를 넣고. 스타트
+		mHP = hp;
+		//Debug.Log ("mOrinHP= " + mOrinHP);
+		
+		mHP += Random.Range(-10, 10);    
+		
+		//Debug.Log ("hp is = "+ mHP);
+	}
+
+
 	public void SetSingleTarget(){
 		SingleTargeted = true;
 	}

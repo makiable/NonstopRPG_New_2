@@ -92,7 +92,7 @@ public class In_GameManager : MonoBehaviour {
 		//이번은 3번 스테이지를 불러와서 싸웁니다. 3번에는 4개의 part가 있습니다.
 
 		//스테이지 정보를 불러 올때 이거 사용. 1스테이지가 들어있는 노드는 총 몇개??
-		mXmlController.Stage_Load_Form_Xml (3); // 1 스테이지에서 필요한 정보를 얻음.지금은 수동이지만 이것도 인수로 받아와야 함.
+		mXmlController.Stage_Load_Form_Xml (2); // 1 스테이지에서 필요한 정보를 얻음.지금은 수동이지만 이것도 인수로 받아와야 함.
 		//대표적으로, 몇번 돌릴지 :  Count => loopCount에 넣고.
 
 		//그래서 아래 값이 나왔습니다. 사용할 스테이지 ID값입니다.
@@ -153,6 +153,7 @@ public class In_GameManager : MonoBehaviour {
 				int PartNumber = int.Parse(mXmlController.public_Temp_Now_Stage_info[checkloop].ToString());
 				Debug.Log("PartNumner = "+PartNumber); //6이 나오면 됨.
 
+				//stage_info_Xml
 				//0		1		2		3				4				5				6				7				8				9
 				//ID	STAGE	PART	MONSTER_NUMBER	MONSTER_ID_01	MONSTER_ID_02	MONSTER_ID_03	DROPITEM_ID_01	DROPITEM_ID_02	DROPGOL
 
@@ -168,7 +169,12 @@ public class In_GameManager : MonoBehaviour {
 				for (int i = 0; i < monsterSpwanNumber; i++) {
 					//X 마리의 몬스터를 소환 합니다. 여기에 몬스터 id의 정보를 넣습니다.
 					//SpawnMonster(i);
-					SpawnMonsterWithID(i, mXmlController.Part_load_From_Xml(PartNumber, i+4));
+
+					//stage_info_Xml
+					//0		1		2		3				4				5				6				7				8				9
+					//ID	STAGE	PART	MONSTER_NUMBER	MONSTER_ID_01	MONSTER_ID_02	MONSTER_ID_03	DROPITEM_ID_01	DROPITEM_ID_02	DROPGOL
+
+					SpawnMonsterWithID(i, mXmlController.Part_load_From_Xml(PartNumber, i+4)); //i+4는 stage xml에서 4,5,6번으로 증가하며 몬스터 id를 받아온다.
 					//2015-09-09 여기까지 성공. 캐릭터 정보를 받아와서 뿌려주는데까지는 되었고.
 					//남은건 몬스터 HP넣고, mp넣고 등등 하는 것.
 
@@ -223,6 +229,12 @@ public class In_GameManager : MonoBehaviour {
 
 	private void SpawnMonsterWithID(int idx, string MonsterID ){ //
 
+		//MonsterListXml
+		//0		1					2						3						
+		//ID	MONSTER_PREFAB_NAME	MONSTER_WEAPON_PREFAB	MONSTER_SPWAN_NUMBER	
+		//4				5			6				7						8			9			10			11
+		//MONSTER_HP	MONSTER_MP	MONSTER_POWER	MONSTER_ATTACK_SPEED	DROP_GOLD	DROP_ITEM01	DROP_ITEM02	MONSTERSCRIPT
+
 		//pawnMonsterWithID(i, mXmlController.Part_load_From_Xml(PartNumber, i+4));
 		//몬스터 정보를 여기에서 참조해서 하나씩 넣어보장.
 		string temp = mXmlController.Monster_Load_Data(MonsterID, 1); //오키 프리팻 이름까지 나옴.
@@ -242,9 +254,19 @@ public class In_GameManager : MonoBehaviour {
 		// 생성된 몬스터 만큼 카운팅 됩니다.
 		mMonsterCount += 1;
 		mMonster01[idx].idx = idx;
-		
-		mMonster01[idx].RandomHP();//
+
+		//HP를 읽어와서 넣습니다.
+		mMonster01[idx].RandomHP2(int.Parse(mXmlController.Monster_Load_Data(MonsterID, 4)));
 		mMonster01[idx].hptext.text = mMonster01[idx].mHP.ToString ();
+
+		//공격 데미지
+		mMonster01 [idx].mOrinAttack = int.Parse (mXmlController.Monster_Load_Data (MonsterID, 6));
+		Debug.Log("attack damage"+int.Parse (mXmlController.Monster_Load_Data (MonsterID, 6)));
+
+		//공격 스피드.
+		mMonster01 [idx].mAttackSpeed = float.Parse (mXmlController.Monster_Load_Data (MonsterID, 7));
+		Debug.Log("attack speed"+float.Parse (mXmlController.Monster_Load_Data (MonsterID, 7)));
+
 		
 		mMonster01 [idx].TargetNumber = idx+1;
 		monster.name = "Monster01"+idx;
