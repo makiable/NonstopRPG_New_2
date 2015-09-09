@@ -92,7 +92,7 @@ public class XmlController : MonoBehaviour {
 				int a = (int)public_Temp_Now_Stage_info[i]; //선택한 스테이지의 파트 부분.
 				//몇 번째 ID 정보를 가져올 것인가?
 				XmlElement FirstChildElement = (XmlElement)root.ChildNodes [a];  //위에 꺼랑 같은 정보 노출.
-				Debug.Log (i+"nd ChildElement.InnerText : " + FirstChildElement.InnerText); //i노드의  모든 정보 출력. 
+			//	Debug.Log (i+"nd ChildElement.InnerText : " + FirstChildElement.InnerText); //i노드의  모든 정보 출력. 
 
 				//선택한 노드의 자식 개수는?? 카운터 값음?
 				//int count = FirstChildElement.ChildNodes.Count;
@@ -196,18 +196,18 @@ public class XmlController : MonoBehaviour {
 	
 			//몇 번째 ID 정보를 가져올 것인가?
 			XmlElement SearchXmlData = (XmlElement)root.ChildNodes [ListNumber];  //위에 꺼랑 같은 정보 노출.
-			Debug.Log ("FirstChildElement.InnerText : " + SearchXmlData.InnerText); //i노드의  모든 정보 출력. 
+		//	Debug.Log ("FirstChildElement.InnerText : " + SearchXmlData.InnerText); //i노드의  모든 정보 출력. 
 			//FirstChildElement.InnerText : 11121001100210013411
 			
 			//선택한 노드의 자식 개수는??
 			int count = SearchXmlData.ChildNodes.Count;
-			Debug.Log ("SearchXmlData.ChildNodes.Count = " + count);
+		//	Debug.Log ("SearchXmlData.ChildNodes.Count = " + count);
 			
 			for (int i = 0; i < count; i++) {
 				XmlElement ElementText = (XmlElement)SearchXmlData.ChildNodes [i]; //i 노드의 n번째 값을 읽어옴. (i의 n번째 innerText는??)
-				Debug.Log ("i = "+i+"-->"+ElementText.InnerText);
+		//		Debug.Log ("i = "+i+"-->"+ElementText.InnerText);
 				Public_Temp_Monster_info[i] = (string)ElementText.InnerText; //값을 전달함.
-				Debug.Log ("temp = " + Public_Temp_Monster_info[i]);
+		//		Debug.Log ("temp = " + Public_Temp_Monster_info[i]);
 			} 
 
 			/* 확인용
@@ -269,7 +269,7 @@ public class XmlController : MonoBehaviour {
 				Public_Temp_Monster_info[i] = (string)ElementText.InnerText; //값을 전달함.
 				//Debug.Log ("temp = " + Public_Temp_Monster_info[i]);
 			} 
-			Debug.Log ("return= " + Public_Temp_Monster_info[ID_Address]);
+		//	Debug.Log ("return= " + Public_Temp_Monster_info[ID_Address]);
 			return Public_Temp_Monster_info[ID_Address];
 
 		} else

@@ -18,6 +18,9 @@ public class MonsterControl : Character {
 	//공속 
 	public float mAttackSpeed;
 
+	//드랍 골드
+	public int mDropGold;
+
 	//싱글 타겟이 된 것인지. 확인한다..
 	public bool SingleTargeted;
 
@@ -144,10 +147,15 @@ public class MonsterControl : Character {
 			//Debug.Log("Dead ->"+gameObject.name);
 			mIn_GameManager.ReAutoTarget();
 
-
 			int tempkill = PlayerPrefs.GetInt ("MonsterKillCount");
 			PlayerPrefs.SetInt ("MonsterKillCount", tempkill + 1 );
 			//Debug.Log("현재 킬카운트 = "+PlayerPrefs.GetInt("MonsterKillCount"));
+			mIn_GameManager.monsterDropGold += mDropGold;
+			mIn_GameManager.getGold.text = mIn_GameManager.monsterDropGold.ToString();
+
+			Debug.Log("MonsterKillCount = "+PlayerPrefs.GetInt("MonsterKillCount"));
+			Debug.Log("playerGetGold = "+mIn_GameManager.monsterDropGold);
+
 
 			mIn_GameManager.killMonster.text = PlayerPrefs.GetInt("MonsterKillCount").ToString();
 

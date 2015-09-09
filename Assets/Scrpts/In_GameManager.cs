@@ -41,7 +41,7 @@ public class In_GameManager : MonoBehaviour {
 	public Transform[] mSpwanPoint;
 
 	//몬스터가 드랍하는 골드 설정..
-	public ulong monsterDropGold;
+	public int monsterDropGold = 0;
 
 	//EFFECT
 	//모든 이팩트 컨트롤.
@@ -89,10 +89,11 @@ public class In_GameManager : MonoBehaviour {
 		mMonster01 = new List<MonsterControl>();
 		mMonster01.Clear();
 
-		//이번은 3번 스테이지를 불러와서 싸웁니다. 3번에는 4개의 part가 있습니다.
+		Debug.Log("Player Has "+PlayerPrefs.GetInt("PlayerTotalGold")+" Gold");
+
 
 		//스테이지 정보를 불러 올때 이거 사용. 1스테이지가 들어있는 노드는 총 몇개??
-		mXmlController.Stage_Load_Form_Xml (2); // 1 스테이지에서 필요한 정보를 얻음.지금은 수동이지만 이것도 인수로 받아와야 함.
+		mXmlController.Stage_Load_Form_Xml (PlayerPrefs.GetInt("SelectStage")); 
 		//대표적으로, 몇번 돌릴지 :  Count => loopCount에 넣고.
 
 		//그래서 아래 값이 나왔습니다. 사용할 스테이지 ID값입니다.
@@ -102,12 +103,7 @@ public class In_GameManager : MonoBehaviour {
 		mLoopCount = mXmlController.now_Stage_Number; //전체 도는 카운트를 넣는다.
 		mLoopCheckCount = mXmlController.now_Stage_Number; //이거는 루프가 현재 몇번째인지 체크.
 
-		//코루틴에서 이후 part를 진행합니다.
 
-
-		//몬스터를 불러올때 이거 사용.
-		//mXmlController.Monster_Load_Form_Xml (1001);
-		//사용할 ID값: 이번 스테이지에서 사용할 스테이지 ID값이 여기에 들어 있다.
 		//mXmlController.public_Temp_Now_Stage_info[i];
 		Debug.Log("in_game_Manager_id_count = "+mXmlController.public_Temp_Now_Stage_info.Count);
 	
@@ -126,12 +122,7 @@ public class In_GameManager : MonoBehaviour {
 	void Update () {
 
 	}
-
-	public void copyAttay (ArrayList array)
-	{
-
-	}
-
+	
 
 	IEnumerator AutoStep()
 	{
@@ -151,7 +142,7 @@ public class In_GameManager : MonoBehaviour {
 				//몇번째 파트인지 체크.
 				int checkloop = mLoopCheckCount - mLoopCount;
 				int PartNumber = int.Parse(mXmlController.public_Temp_Now_Stage_info[checkloop].ToString());
-				Debug.Log("PartNumner = "+PartNumber); //6이 나오면 됨.
+				//Debug.Log("PartNumner = "+PartNumber); //6이 나오면 됨.
 
 				//stage_info_Xml
 				//0		1		2		3				4				5				6				7				8				9
@@ -161,7 +152,7 @@ public class In_GameManager : MonoBehaviour {
 				mMonster01.Clear();
 
 				monsterSpwanNumber = int.Parse(mXmlController.Part_load_From_Xml(PartNumber, 3)); //3번째에 출현 몬스터 정보
-				Debug.Log("______________"+monsterSpwanNumber);
+				//Debug.Log("______________"+monsterSpwanNumber);
 
 
 				//이 part에서 소환할 몬스터 마리수를 가져와서 넣습니다.
@@ -197,35 +188,7 @@ public class In_GameManager : MonoBehaviour {
 			}
 		}
 	}
-	
 
-	private void SpawnMonster(int idx)
-	{
-		//몬스터 정보를 여기에서 참조해서 하나씩 넣어보장.
-		// Resources 폴더로부터 Monster 프리팹(Prefab)을 로드합니다.
-		Object prefab = Resources.Load("Monster01");
-
-		// 참조한 프리팹을 인스턴스화 합니다. (화면에 나타납니다.)
-		GameObject monster = Instantiate(prefab, mSpwanPoint[idx].position, Quaternion.identity) as GameObject;
-
-		//위치 값이 이상해서, 수동으로 조절 했음.
-		monster.transform.parent = mSpwanPoint[idx];
-
-		// 생성된 인스턴스에서 MonsterControl 컴포넌트를 불러내어 mMonster 리스트에 Add 시킵니다.
-		mMonster01.Add(monster.GetComponent<MonsterControl>());
-
-		// 생성된 몬스터 만큼 카운팅 됩니다.
-		mMonsterCount += 1;
-		mMonster01[idx].idx = idx;
-
-		mMonster01[idx].RandomHP();//
-		mMonster01[idx].hptext.text = mMonster01[idx].mHP.ToString ();
-
-		mMonster01 [idx].TargetNumber = idx+1;
-		monster.name = "Monster01"+idx;
-		// 레이어 오더를 단계적으로 주어 몬스터들의 뎁스가 차례대로 겹치도록 한다.
-		monster.GetComponent<SpriteRenderer>().sortingOrder = idx+1;
-	}
 
 	private void SpawnMonsterWithID(int idx, string MonsterID ){ //
 
@@ -235,7 +198,6 @@ public class In_GameManager : MonoBehaviour {
 		//4				5			6				7						8			9			10			11
 		//MONSTER_HP	MONSTER_MP	MONSTER_POWER	MONSTER_ATTACK_SPEED	DROP_GOLD	DROP_ITEM01	DROP_ITEM02	MONSTERSCRIPT
 
-		//pawnMonsterWithID(i, mXmlController.Part_load_From_Xml(PartNumber, i+4));
 		//몬스터 정보를 여기에서 참조해서 하나씩 넣어보장.
 		string temp = mXmlController.Monster_Load_Data(MonsterID, 1); //오키 프리팻 이름까지 나옴.
 
@@ -261,11 +223,13 @@ public class In_GameManager : MonoBehaviour {
 
 		//공격 데미지
 		mMonster01 [idx].mOrinAttack = int.Parse (mXmlController.Monster_Load_Data (MonsterID, 6));
-		Debug.Log("attack damage"+int.Parse (mXmlController.Monster_Load_Data (MonsterID, 6)));
+		//Debug.Log("attack damage"+int.Parse (mXmlController.Monster_Load_Data (MonsterID, 6)));
 
 		//공격 스피드.
 		mMonster01 [idx].mAttackSpeed = float.Parse (mXmlController.Monster_Load_Data (MonsterID, 7));
-		Debug.Log("attack speed"+float.Parse (mXmlController.Monster_Load_Data (MonsterID, 7)));
+		//Debug.Log("attack speed"+float.Parse (mXmlController.Monster_Load_Data (MonsterID, 7)));
+
+		mMonster01[idx].mDropGold = int.Parse (mXmlController.Monster_Load_Data(MonsterID, 8));
 
 		
 		mMonster01 [idx].TargetNumber = idx+1;
@@ -311,13 +275,13 @@ public class In_GameManager : MonoBehaviour {
 
 			if (mHero01.CriticalRate < Random.Range(0,100)) {
 				mNormalSkill.normalHit(mHero01, GetRandomDamage(mHero01.mAttackPower * 2), TargetMonster);
-				Debug.Log("it's Critical");
+			//	Debug.Log("it's Critical");
 			}
 			else {
 				mNormalSkill.normalHit(mHero01, GetRandomDamage(mHero01.mAttackPower), TargetMonster);
 			}
 
-			Debug.Log("TapAttack");
+			//Debug.Log("TapAttack");
 
 			break;
 		}
@@ -327,16 +291,16 @@ public class In_GameManager : MonoBehaviour {
 	public void HeroSkillAttack01(){ //모든 적을 공격하는 광역 공격.
 
 		//StopCoroutine("HeroAutoAttack");
-		Debug.Log ("사용 전 현재 몇마리 남음? = "+mMonsterCount);
+		//Debug.Log ("사용 전 현재 몇마리 남음? = "+mMonsterCount);
 
 		while (mStageStatus == StageStatus.Battle) {
 			for (int i = 0; i < monsterSpwanNumber; ++i) {
 				if (mMonster01[i].mStatus != MonsterControl.Status.Dead) {
 					mNormalSkill.normalHit (mHero01, GetRandomDamage (mHero01.mAttackPower), mMonster01 [i]);
-					Debug.Log ("몬스터 " + i + "에게 " + mMonster01 [i].saveDamageTextForShow + "를 주었다. 남은 HP = " + mMonster01 [i].mHP);
+				//	Debug.Log ("몬스터 " + i + "에게 " + mMonster01 [i].saveDamageTextForShow + "를 주었다. 남은 HP = " + mMonster01 [i].mHP);
 				}
 			}
-			Debug.Log (" 스킬 사용 후 현재 몇마리 남음? = "+mMonsterCount);
+			//Debug.Log (" 스킬 사용 후 현재 몇마리 남음? = "+mMonsterCount);
 			break;
 		}
 		//Invoke ("WaitAndStartCoroutine", 1.2f);
@@ -357,12 +321,12 @@ public class In_GameManager : MonoBehaviour {
 			
 			if (mHero01.CriticalRate < Random.Range(0,100)) {
 				mNormalSkill.normalHit(mHero01, GetRandomDamage(mHero01.mAttackPower * 2), TargetMonster);
-				Debug.Log("it's Critical");
+			//	Debug.Log("it's Critical");
 			}
 			else {
 				mNormalSkill.normalHit(mHero01, GetRandomDamage(mHero01.mAttackPower), TargetMonster);
 			}
-			Debug.Log("Skill2 Serise Attack");
+			//Debug.Log("Skill2 Serise Attack");
 			yield return new WaitForSeconds (0.2f);
 		}
 	}
@@ -392,7 +356,6 @@ public class In_GameManager : MonoBehaviour {
 	}
 
 	public void CoolTimeReset(){
-	
 		Skill01.ResetCooltime ();
 	}
 
@@ -421,7 +384,10 @@ public class In_GameManager : MonoBehaviour {
 				mIngTextMassage.text = "스테이지 클리어!";
 
 				mStageStatus = StageStatus.Clear;
+
 				GameOver();
+
+				Invoke("getResult", 0.5f);		
 
 				return;
 			}
@@ -433,6 +399,16 @@ public class In_GameManager : MonoBehaviour {
 		//타겟 재 탐색.
 		GetSingleAutoTarget();
 	}
+
+	void getResult()
+	{
+		//골드 정산 받기
+		int tempGold = PlayerPrefs.GetInt ("PlayerTotalGold");
+		Debug.Log("Stage Clear -> tempgold = "+tempGold);
+		Debug.Log("Stage Clear -> monsterDropGold = "+monsterDropGold);
+		PlayerPrefs.SetInt ("PlayerTotalGold", tempGold + monsterDropGold );
+	}
+
 
 	// 몬스터 자동 공격 입니다잉~~~
 	IEnumerator MonsterAutoAttack(){
@@ -501,6 +477,7 @@ public class In_GameManager : MonoBehaviour {
 	// 버튼의 명령 처리 함수 
 	void StartButton(){
 		Application.LoadLevel("Menu_Default_Scene");
+
 	}
 
 	public void GameOver(){
@@ -511,6 +488,34 @@ public class In_GameManager : MonoBehaviour {
 		StopCoroutine ("AutoStep");
 		//Application.LoadLevel("Menu_Default_Scene");
 
+	}
+
+	private void SpawnMonster(int idx)
+	{
+		//몬스터 정보를 여기에서 참조해서 하나씩 넣어보장.
+		// Resources 폴더로부터 Monster 프리팹(Prefab)을 로드합니다.
+		Object prefab = Resources.Load("Monster01");
+		
+		// 참조한 프리팹을 인스턴스화 합니다. (화면에 나타납니다.)
+		GameObject monster = Instantiate(prefab, mSpwanPoint[idx].position, Quaternion.identity) as GameObject;
+		
+		//위치 값이 이상해서, 수동으로 조절 했음.
+		monster.transform.parent = mSpwanPoint[idx];
+		
+		// 생성된 인스턴스에서 MonsterControl 컴포넌트를 불러내어 mMonster 리스트에 Add 시킵니다.
+		mMonster01.Add(monster.GetComponent<MonsterControl>());
+		
+		// 생성된 몬스터 만큼 카운팅 됩니다.
+		mMonsterCount += 1;
+		mMonster01[idx].idx = idx;
+		
+		mMonster01[idx].RandomHP();//
+		mMonster01[idx].hptext.text = mMonster01[idx].mHP.ToString ();
+		
+		mMonster01 [idx].TargetNumber = idx+1;
+		monster.name = "Monster01"+idx;
+		// 레이어 오더를 단계적으로 주어 몬스터들의 뎁스가 차례대로 겹치도록 한다.
+		monster.GetComponent<SpriteRenderer>().sortingOrder = idx+1;
 	}
 
 

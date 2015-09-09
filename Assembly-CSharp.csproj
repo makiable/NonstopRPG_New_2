@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Menu_select_Dungeun.cs" />
      <Compile Include="Assets\Scrpts\AllSkill_World.cs" />
      <Compile Include="Assets\Scrpts\Character\Character.cs" />
      <Compile Include="Assets\Scrpts\Character\HeroControl.cs" />

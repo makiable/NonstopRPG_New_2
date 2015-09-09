@@ -29,7 +29,7 @@ public class Skill_normal_Attack : MonoBehaviour {
 		
 		if (damagedC.mHP > 0) {
 			damagedC.SendMessage("DamagedTest", damage);
-			Debug.Log("Damage = "+damage);
+			//Debug.Log("Damage = "+damage);
 		}
 		
 		if (damagedC.mHP <= 0) {
