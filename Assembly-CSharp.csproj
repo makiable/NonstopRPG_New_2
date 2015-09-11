@@ -46,6 +46,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Item-Inventory\DragHandeler.cs" />
+     <Compile Include="Assets\Item-Inventory\Inventory.cs" />
+     <Compile Include="Assets\Item-Inventory\Slot.cs" />
      <Compile Include="Assets\Menu_select_Dungeun.cs" />
      <Compile Include="Assets\Scrpts\AllSkill_World.cs" />
      <Compile Include="Assets\Scrpts\Character\Character.cs" />

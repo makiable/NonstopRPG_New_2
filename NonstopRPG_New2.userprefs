@@ -1,8 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scrpts\Main_GameManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Item-Inventory\Slot.cs">
     <Files>
-      <File FileName="Assets\Scrpts\Main_GameManager.cs" Line="19" Column="36" />
+      <File FileName="Assets\Item-Inventory\DragHandeler.cs" Line="33" Column="3" />
+      <File FileName="Assets\Scrpts\Main_GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Item-Inventory\Slot.cs" Line="30" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
